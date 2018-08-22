@@ -82,8 +82,8 @@ namespace TeslaTokenGenerator {
 
                 details.AppendLine("Total " + vehicles.Count.ToString() + " vehicle(s) found.");
                 foreach (var vehicle in vehicles) {
-                    string temp = "NAME: " + vehicle.DisplayName + ", MODEL: " + tesla.GetModel(vehicle) + ", VIN: " + vehicle.VIN + " STATE: " + vehicle.State;
-                    details.AppendLine(temp);
+                    string s = "NAME: " + vehicle.DisplayName + ", MODEL: " + tesla.GetModel(vehicle) + ", VIN: " + vehicle.VIN + " STATE: " + vehicle.State;
+                    details.AppendLine(s);
 
                     Debug.Write(vehicle.ToString());
                 }
@@ -91,6 +91,10 @@ namespace TeslaTokenGenerator {
                 if (vehicles.Count == 1) {
                     this.vehicleID = vehicles[0].ID;
                 }
+
+                VehicleData data = new VehicleData();
+                data = tesla.GetAllVehicleData(this.vehicleID, token.AccessToken);
+                Debug.WriteLine(data.ToString());
 
                 SetCursorToDefault();
                 MessageBox.Show(details.ToString(), "Vehicle details", MessageBoxButtons.OK, MessageBoxIcon.Information);

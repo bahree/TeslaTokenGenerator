@@ -465,7 +465,7 @@ namespace TeslaTokenGenerator {
         public int MaxRangeChargeCounter { get; set; } 
 
         [JsonProperty(PropertyName = "fast_charger_present")]
-        public int FastChargerPresent { get; set; } 
+        public bool FastChargerPresent { get; set; }  //changed from int to bool 
 
         [JsonProperty(PropertyName = "battery_range")]
         public float BatteryRange { get; set; } 
@@ -486,10 +486,10 @@ namespace TeslaTokenGenerator {
         public float ChargeEnergyAdded { get; set; }
 
         [JsonProperty(PropertyName = "charge_miles_added_rated")]
-        public int ChargeMilesAddedRated { get; set; }
+        public float ChargeMilesAddedRated { get; set; }
 
         [JsonProperty(PropertyName = "charge_miles_added_ideal")]
-        public int ChargeMilesAddedIdeal { get; set; }
+        public float ChargeMilesAddedIdeal { get; set; }
 
         [JsonProperty(PropertyName = "charger_voltage")]
         public int ChargerVoltage { get; set; }
@@ -498,7 +498,7 @@ namespace TeslaTokenGenerator {
         public int ChargerPilotCurrent { get; set; }
 
         [JsonProperty(PropertyName = "charger_actual_current")]
-        public int ChargerActualCurrent { get; set; }
+        public float ChargerActualCurrent { get; set; }
 
         [JsonProperty(PropertyName = "charger_power")]
         public int ChargerPower { get; set; }
@@ -512,7 +512,7 @@ namespace TeslaTokenGenerator {
         public bool TripCharging { get; set; }
 
         [JsonProperty(PropertyName = "charge_rate")]
-        public int ChargeRate { get; set; }
+        public float ChargeRate { get; set; }
 
         [JsonProperty(PropertyName = "charge_port_door_open")]
         public bool ChargePortDoorOpen { get; set; }
@@ -535,11 +535,11 @@ namespace TeslaTokenGenerator {
         public bool ChargeEnableRequest { get; set; }
 
         //TODO: Need to validate if this indeed int.
-        [JsonProperty(PropertyName = "charger_phases")]
+        [JsonProperty(PropertyName = "charger_phases",NullValueHandling = NullValueHandling.Ignore)]
         public int ChargerPhases { get; set; } 
 
         [JsonProperty(PropertyName = "charge_port_latch")]
-        public bool ChargePortLatch { get; set; }
+        public string ChargePortLatch { get; set; }
 
         [JsonProperty(PropertyName = "charge_current_request")]
         public int ChargeCurrentRequest { get; set; }
@@ -604,6 +604,7 @@ namespace TeslaTokenGenerator {
             s.AppendLine("Fast Charger Type: " + FastChargerType);
             s.AppendLine("Fast Charger Brand: " + FastChargerBrand);
 
+            
             s.AppendLine("Charger Phases: " + ChargerPhases);
             s.AppendLine("Charge Port Latch: " + ChargePortLatch);
             s.AppendLine("Charge Current Request: " + ChargeCurrentRequest);
@@ -917,6 +918,182 @@ namespace TeslaTokenGenerator {
             s.AppendLine("Charge Rate Units: " + GUIChargeRateUnits);
             s.AppendLine("24 Hour Display: " + GUI24HourTime);
             s.AppendLine("Range Display: " + GUIRangeDisplay);
+
+            return s.ToString();
+        }
+    }
+
+
+    class VehicleConfig {
+        [JsonProperty(PropertyName = "can_actuate_trunks")]
+        public bool CanActuateTrunks { get; set; }
+
+        [JsonProperty(PropertyName = "car_special_type")]
+        public string CarSpecialType { get; set; }
+
+        [JsonProperty(PropertyName = "car_type")]
+        public string CarType { get; set; }
+
+        [JsonProperty(PropertyName = "charge_port_type")]
+        public string ChargePortType { get; set; }
+
+        [JsonProperty(PropertyName = "eu_vehicle")]
+        public bool EUVehicle { get; set; }
+
+        [JsonProperty(PropertyName = "exterior_color")]
+        public string ExteriorColor { get; set; }
+
+        [JsonProperty(PropertyName = "has_ludicrous_mode")]
+        public bool HasLudicrousMode { get; set; }
+
+        [JsonProperty(PropertyName = "motorized_charge_port")]
+        public bool MotorizedChargePort { get; set; }
+
+        [JsonProperty(PropertyName = "perf_config")]
+        public string PerfConfig { get; set; }
+
+        [JsonProperty(PropertyName = "plg", NullValueHandling = NullValueHandling.Ignore)]
+        public bool PLG { get; set; }
+
+        [JsonProperty(PropertyName = "rear_seat_heaters")]
+        public int RearSeatHeaters { get; set; }
+
+        [JsonProperty(PropertyName = "rear_seat_type", NullValueHandling = NullValueHandling.Ignore)]
+        public string RearSeatType { get; set; }
+
+        [JsonProperty(PropertyName = "rhd")]
+        public bool RHD { get; set; }
+
+        [JsonProperty(PropertyName = "roof_color")]
+        public string RoofColor { get; set; }
+
+        [JsonProperty(PropertyName = "seat_type", NullValueHandling = NullValueHandling.Ignore)]
+        public string SeatType { get; set; }
+
+        [JsonProperty(PropertyName = "spoiler_type")]
+        public string SpoilerType { get; set; }
+
+        [JsonProperty(PropertyName = "sun_roof_installed", NullValueHandling = NullValueHandling.Ignore)]
+        public string SunRoofInstalled { get; set; }
+
+        [JsonProperty(PropertyName = "third_row_seats", NullValueHandling = NullValueHandling.Ignore)]
+        public string ThirdRowSeats { get; set; }
+
+        [JsonProperty(PropertyName = "wheel_type")]
+        public string WheelType { get; set; }
+
+        [JsonProperty(PropertyName = "timestamp")]
+        public double TimeStamp { get; set; }
+
+        public override string ToString() {
+            StringBuilder s = new StringBuilder();
+
+            s.AppendLine("Can actuatte trunks: " + CanActuateTrunks);
+            s.AppendLine("Car special Type: " + CarSpecialType);
+            s.AppendLine("Car type: " + CarType);
+            s.AppendLine("Charge port type: " + ChargePortType);
+            s.AppendLine("EU Vehicle: " + ((EUVehicle == true) ? "Yes" : "No"));
+
+            s.AppendLine("Exterior Color: " + ExteriorColor);
+            s.AppendLine("Has ludicrous mode: " + ((HasLudicrousMode == true) ? "Yes" : "No"));
+            s.AppendLine("Motorized charge port: " + ((MotorizedChargePort == true) ? "Yes" : "No"));
+            s.AppendLine("Performance config: " + PerfConfig);
+            s.AppendLine("PLG: " + PLG);
+            s.AppendLine("Rear seat heaters: " + ((RearSeatHeaters == 1)?"Yes":"No"));
+
+            if(RearSeatType != null)
+                s.AppendLine("Rear seat type: " + RearSeatType); 
+
+            s.AppendLine("Right hand drive: " + ((RHD == true) ? "Yes" : "No"));
+            s.AppendLine("Roof color: " + RoofColor);
+
+            if (SeatType != null)
+                s.AppendLine("Seat type: " + SeatType);
+
+            s.AppendLine("Spoiler type: " + SpoilerType);
+
+            if(SunRoofInstalled != null)
+                s.AppendLine("Sun roof installed: " + SunRoofInstalled);
+
+            s.AppendLine("Third row seats: " + ThirdRowSeats);
+            s.AppendLine("Wheel Type: " + WheelType);
+
+            return s.ToString();
+        }
+    }
+
+    class VehicleData {
+        [JsonProperty(PropertyName = "id")]
+        public string ID { get; set; }
+
+        [JsonProperty(PropertyName = "vehicle_id")]
+        public string VehicleID { get; set; }
+
+        [JsonProperty(PropertyName = "vin")]
+        public string VIN { get; set; }
+
+        [JsonProperty(PropertyName = "display_name")]
+        public string DisplayName { get; set; }
+
+        [JsonProperty(PropertyName = "option_codes")]
+        public string OptionCodes { get; set; }
+
+        [JsonProperty(PropertyName = "color", NullValueHandling = NullValueHandling.Ignore)]
+        public string Colour { get; set; }
+
+        [JsonProperty(PropertyName = "state")]
+        public string State { get; set; }
+
+        [JsonProperty(PropertyName = "in_service", NullValueHandling = NullValueHandling.Ignore)]
+        public string IsServiced { get; set; }
+
+        [JsonProperty(PropertyName = "calendar_enabled")]
+        public bool CalendarEnabled { get; set; }
+
+        [JsonProperty(PropertyName = "remote_start_enabled")]
+        public bool RemoteStartEnabled { get; set; }
+
+        [JsonProperty(PropertyName = "notifications_enabled")]
+        public bool NotificationsEnabled { get; set; }
+
+        [JsonProperty(PropertyName = "tokens")]
+        public string[] Tokens { get; set; }
+
+        //charge state
+        [JsonProperty(PropertyName = "charge_state")]
+        public VehicleChargeState VehicleChargeState { get; set; }
+
+        //GUI Settings
+        [JsonProperty(PropertyName = "gui_settings")]
+        public VehicleGUISettings GUISettings { get; set; }
+
+        //Drive State
+        [JsonProperty(PropertyName = "drive_state")]
+        public VehicleDriveState DriveState { get; set; }
+
+        //vehicle_config
+        [JsonProperty(PropertyName = "vehicle_config")]
+        public VehicleConfig VehicleConfig { get; set; }
+
+        //vehicle_state
+        [JsonProperty(PropertyName = "vehicle_state")]
+        public VehicleState VehicleState { get; set; }
+
+        //climate_state
+        [JsonProperty(PropertyName = "climate_state")]
+        public VehicleClimateState ClimateState { get; set; }
+
+        public override string ToString() {
+            StringBuilder s = new StringBuilder();
+
+            s.AppendLine("ID: " + ID);
+            s.AppendLine("VIN: " + VIN);
+            s.AppendLine("Name: " + DisplayName);
+            s.AppendLine("Options Installed: " + OptionCodes);
+            s.AppendLine("Vehicle State: " + State);
+            s.AppendLine("Caelndar Enabled: " + CalendarEnabled);
+            s.AppendLine("Remote Start Enabled: " + RemoteStartEnabled);
+            s.AppendLine("Notifications Enabled: " + NotificationsEnabled);
 
             return s.ToString();
         }
